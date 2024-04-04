@@ -1,0 +1,12 @@
+node_modules
+.git
+.idea
+build
+credentials.json
+yarn-error.log
+coverage
+.gradle
+package-lock.json
+dist
+lib
+.DS_Store

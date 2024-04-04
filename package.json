@@ -1,0 +1,71 @@
+{
+  "name": "tdaclient",
+  "version": "1.12.1",
+  "description": "Schwab Client",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "jest --silent --detectOpenHandles --coverage --runInBand",
+    "test-dev": "jest --watch --silent --detectOpenHandles --coverage",
+    "clean": "jest --clearCache && rimraf dist",
+    "build": "tsc",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "lint": "tslint -p tsconfig.json",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run lint",
+    "preversion": "npm run lint",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/pyriter/schwabclient.git"
+  },
+  "author": "Phong Vuong",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "axios": "^0.27.2",
+    "qs": "^6.9.4"
+  },
+  "devDependencies": {
+    "@jest/globals": "^26.6.2",
+    "@types/jest": "^27.0.3",
+    "@types/node": "^16.11.11",
+    "jest": "^27.4.2",
+    "prettier": "^2.5.0",
+    "ts-jest": "^27.0.7",
+    "tslint": "^6.1.3",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^4.5.2"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "clearMocks": true,
+    "resetMocks": true,
+    "resetModules": true,
+    "testEnvironment": "node",
+    "coverageReporters": [
+      "html"
+    ],
+    "testTimeout": 300000,
+    "roots": [
+      "<rootDir>/src"
+    ],
+    "testMatch": [
+      "**/__tests__/**/*.+(ts|tsx|js)",
+      "**/?(*.)+(spec|test).+(ts|tsx|js)"
+    ],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "ts-jest"
+    }
+  },
+  "bugs": {
+    "url": "https://github.com/pyriter/tdaclient/issues"
+  },
+  "homepage": "https://github.com/pyriter/tdaclient#readme",
+  "keywords": [],
+  "files": [
+    "dist/**/*"
+  ]
+}

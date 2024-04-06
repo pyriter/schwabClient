@@ -1,3 +1,5 @@
+#!/usr/local/bin/node
+
 const credentials = require("./credentials.json");
 
 const redirectUrlFormEncoded = encodeURIComponent(credentials.redirect_uri);

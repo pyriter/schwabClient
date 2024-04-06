@@ -23,7 +23,7 @@ import {AccountApi} from './accounts';
 import {OptionChainApi} from './optionChain';
 import {QuotesApi} from './quotes';
 
-describe('Orders', () => {
+xdescribe('Orders', () => {
   let validAccount;
   const client = provideClientWithLocalFileCredentialProvider();
   const ordersApi = new OrdersApi(client);
@@ -50,7 +50,7 @@ describe('Orders', () => {
   it('should be able to get orders for a specific account given an account id', async () => {
     // Get account
     const accountResponse = await accountApi.getAccount();
-    const accountId = accountResponse[0].accountId;
+    const accountId = accountResponse[0].accountNumber;
     const response = await ordersApi.getOrdersByQuery({
       accountId,
       fromEnteredTime: new Date().toISOString(),

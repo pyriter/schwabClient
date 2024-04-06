@@ -83,10 +83,11 @@ export interface Balances {
 
 export interface SecuritiesAccount {
   type: string;
-  accountId: string;
+  accountNumber: string;
   roundTrips: number;
   isDayTrader: boolean;
   isClosingOnlyRestricted: boolean;
+  pfcbFlag: boolean;
   initialBalances: InitialBalances;
   currentBalances: Balances;
   projectedBalances: Balances;

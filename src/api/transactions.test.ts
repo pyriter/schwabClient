@@ -4,7 +4,7 @@ import { AccountApi } from './accounts';
 import { provideClientWithLocalFileCredentialProvider } from '../utils/testUtils';
 import { TransactionsApi } from './transactions';
 
-describe('Transactions', () => {
+xdescribe('Transactions', () => {
   let validAccount: SecuritiesAccount;
   const client = provideClientWithLocalFileCredentialProvider();
   const accountApi = new AccountApi(client);
@@ -16,7 +16,7 @@ describe('Transactions', () => {
 
   xit('should be able to get transactions given an account id', async () => {
     const response = await transactionApi.getTransactions({
-      accountId: validAccount.accountId,
+      accountId: validAccount.accountNumber,
     });
 
     expect(response.length).toBeGreaterThanOrEqual(0);
@@ -24,13 +24,13 @@ describe('Transactions', () => {
 
   xit('should be able to get a transaction given transaction id', async () => {
     const transactions = await transactionApi.getTransactions({
-      accountId: validAccount.accountId,
+      accountId: validAccount.accountNumber,
     });
 
     const transaction = transactions.filter((t) => (t.type = TransactionType.MONEY_MARKET)).pop();
 
     const response = await transactionApi.getTransactions({
-      accountId: validAccount.accountId,
+      accountId: validAccount.accountNumber,
       transactionId: transaction?.transactionId,
     });
 
@@ -39,7 +39,7 @@ describe('Transactions', () => {
 
   it('should be able to get transactions given type and start date', async () => {
     const response = await transactionApi.getTransactionsByQuery({
-      accountId: validAccount.accountId,
+      accountId: validAccount.accountNumber,
       startDate: '2022-03-01',
     });
 

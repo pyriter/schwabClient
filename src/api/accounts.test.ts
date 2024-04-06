@@ -6,6 +6,9 @@ describe('Accounts', () => {
 
   it('should be able to get all accounts', async () => {
     const response = await accountApi.getAccount();
+    const securitiesAccount = response.pop();
     expect(response);
+    expect(securitiesAccount?.currentBalances).toBeDefined()
+    expect(securitiesAccount?.accountNumber).toBeDefined()
   });
 });

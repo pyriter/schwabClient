@@ -8,7 +8,10 @@ export interface TdaCredential {
   access_token_modified_date: number;
   refresh_token_modified_date: number;
   client_id: string;
+  client_secret: string;
   redirect_uri: string;
+  code: string;
+  id_token: string;
 }
 
 export interface CredentialProvider {
@@ -22,7 +25,7 @@ export interface CredentialProvider {
 
   // Initiates the call to update credentials with a chance to do some preprocessing
   // Is called by AuthorizationTokenInterceptor
-  updateCredential(tdaCredential: TdaCredential): Promise<void>;
+  updateCredential(tdaCredential: Partial<TdaCredential>): Promise<void>;
 
   // Makes the call to update the credential to the persistent store.
   // Is called by updateCredential. See above.

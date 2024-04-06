@@ -14,7 +14,7 @@ describe('TdaClient', () => {
       const account = (await tdaClientWithLocalCache.getAccount()).pop();
 
       expect(account).toBeDefined();
-      expect(account?.accountId).toBeDefined();
+      expect(account?.accountNumber).toBeDefined();
     });
 
     it('should be able to get options chain', async () => {
@@ -50,7 +50,7 @@ describe('TdaClient', () => {
       const account = (await tdaClientWithLocalFile.getAccount()).pop();
 
       expect(account).toBeDefined();
-      expect(account?.accountId).toBeDefined();
+      expect(account?.accountNumber).toBeDefined();
     });
 
     it('should be able to get options chain', async () => {

@@ -1,9 +1,9 @@
-import { LocalFileCredentialProvider } from '../providers/localFileCredentialProvider';
-import { AuthorizationTokenInterceptor } from '../connection/authorizationTokenInterceptor';
-import { CREDENTIALS_FILE_NAME } from './constants';
-import { Client } from '../connection/client';
-import { TdaClient } from '../connection/tdaClient';
-import { LocalCacheCredentialProvider } from '../providers/localCacheCrendentialProvider';
+import {LocalFileCredentialProvider} from '../providers/localFileCredentialProvider';
+import {AuthorizationTokenInterceptor} from '../connection/authorizationTokenInterceptor';
+import {CREDENTIALS_FILE_NAME} from './constants';
+import {Client} from '../connection/client';
+import {TdaClient} from '../connection/tdaClient';
+import {LocalCacheCredentialProvider} from '../providers/localCacheCrendentialProvider';
 
 export function provideClientWithLocalFileCredentialProvider() {
   const provider = new LocalFileCredentialProvider(CREDENTIALS_FILE_NAME);
@@ -15,8 +15,11 @@ export function provideClientWithLocalFileCredentialProvider() {
 
 export async function provideClientWithLocalCacheCredentialProvider() {
   const localFileCredentialProvider = new LocalFileCredentialProvider(CREDENTIALS_FILE_NAME);
-  const { access_token, client_id, refresh_token } = await localFileCredentialProvider.getCredential();
+  const {access_token, client_id, refresh_token} = await localFileCredentialProvider.getCredential();
   const localProvider = new LocalCacheCredentialProvider({
+    client_secret: "",
+    code: "",
+    id_token: "",
     access_token,
     access_token_modified_date: 0,
     client_id,
@@ -24,7 +27,7 @@ export async function provideClientWithLocalCacheCredentialProvider() {
     redirect_uri: '',
     refresh_token,
     refresh_token_expires_in: 0,
-    refresh_token_modified_date: 0,
+    refresh_token_modified_date: 0
   });
   const client = new Client();
   const authorizationInterceptor = new AuthorizationTokenInterceptor(localProvider);
@@ -34,7 +37,7 @@ export async function provideClientWithLocalCacheCredentialProvider() {
 
 export async function providerTdaClientWithLocalCacheProvider(): Promise<TdaClient> {
   const localFileCredentialProvider = new LocalFileCredentialProvider(CREDENTIALS_FILE_NAME);
-  const { access_token, client_id, refresh_token } = await localFileCredentialProvider.getCredential();
+  const {access_token, client_id, refresh_token} = await localFileCredentialProvider.getCredential();
   return TdaClient.from({
     access_token,
     client_id,

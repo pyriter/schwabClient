@@ -1,9 +1,9 @@
-import { AccessType, GrantType, oauth, OAuthData } from '../api/authenticate';
-import { AUTHENTICATION, OAUTH2_TOKEN } from './routes.config';
-import { CredentialProvider, TdaCredential } from '../providers/credentialProvider';
-import { AxiosError } from 'axios';
-import { Interceptor } from './interceptor';
-import { Client } from './client';
+import {GrantType, oauth, OAuthData} from '../api/authenticate';
+import {AUTHENTICATION, OAUTH2_TOKEN} from './routes.config';
+import {CredentialProvider, TdaCredential} from '../providers/credentialProvider';
+import {AxiosError} from 'axios';
+import {Interceptor} from './interceptor';
+import {Client} from './client';
 
 const MAX_RETRIES = 1;
 
@@ -22,7 +22,7 @@ export class AuthorizationTokenInterceptor extends Interceptor {
   }
 
   async onErrorResponseHandler(error: AxiosError, client: Client): Promise<any> {
-    const { config, response } = error;
+    const {config, response} = error;
 
     if (config.url?.includes(OAUTH2_TOKEN) || config.url?.includes(AUTHENTICATION)) return error;
 
@@ -43,28 +43,20 @@ export class AuthorizationTokenInterceptor extends Interceptor {
   }
 
   private async getAccessToken(): Promise<string> {
-    const { access_token } = await this.getCredential();
+    const {access_token} = await this.getCredential();
     return access_token;
   }
 
-  private getAccessType(tdaCredential: TdaCredential): AccessType {
-    const { refresh_token_modified_date, refresh_token_expires_in } = tdaCredential;
-    const expiredDate = refresh_token_modified_date + refresh_token_expires_in * 1000 * 0.9;
-    const now = Date.now();
-    if (!expiredDate || now >= expiredDate) return AccessType.OFFLINE;
-    else return AccessType.NONE;
-  }
 
   private async generateOAuthData(): Promise<OAuthData> {
     const tdaCredential = await this.getCredential();
-    const { client_id, redirect_uri, refresh_token } = tdaCredential;
-    const accessType = this.getAccessType(tdaCredential);
+    const {client_id, redirect_uri, refresh_token, client_secret, code} = tdaCredential;
     return {
+      client_secret,
       client_id,
       redirect_uri,
       refresh_token,
-      grant_type: GrantType.REFRESH_TOKEN,
-      access_type: accessType,
+      grant_type: GrantType.REFRESH_TOKEN
     };
   }
 
@@ -73,31 +65,18 @@ export class AuthorizationTokenInterceptor extends Interceptor {
     const credential = await oauth(oAuthData, client);
 
     const now = Date.now();
-    // need to resolve the modified information here
-    switch (oAuthData.access_type) {
-      case AccessType.OFFLINE:
-        // @ts-ignore
-        await this.updateCredential({
-          ...credential,
-          access_token_modified_date: now,
-          refresh_token_modified_date: now,
-        });
-        break;
-      case AccessType.NONE:
-        // @ts-ignore
-        await this.updateCredential({
-          ...credential,
-          access_token_modified_date: now,
-        });
-        break;
-    }
+    await this.updateCredential({
+      ...credential,
+      access_token_modified_date: now,
+      refresh_token_modified_date: now
+    });
   }
 
   private async getCredential(): Promise<TdaCredential> {
     return await this.credentialProvider.getCredential.bind(this.credentialProvider)();
   }
 
-  private async updateCredential(tdaCredential: TdaCredential): Promise<void> {
+  private async updateCredential(tdaCredential: Partial<TdaCredential>): Promise<void> {
     await this.credentialProvider.updateCredential.bind(this.credentialProvider, tdaCredential)();
   }
 }

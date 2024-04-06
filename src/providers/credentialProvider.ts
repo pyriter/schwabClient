@@ -1,4 +1,4 @@
-export interface TdaCredential {
+export interface SchwabCredential {
   access_token: string;
   refresh_token: string;
   scope?: string;
@@ -17,17 +17,17 @@ export interface TdaCredential {
 export interface CredentialProvider {
   // Initiates the call to get credentials with a chance to do some preprocessing
   // Is called by AuthorizationTokenInterceptor
-  getCredential(): Promise<TdaCredential>;
+  getCredential(): Promise<SchwabCredential>;
 
   // Makes the call to get the credential from the persistent store
   // Is called by getCredential. See above.
-  fetch(): Promise<TdaCredential>;
+  fetch(): Promise<SchwabCredential>;
 
   // Initiates the call to update credentials with a chance to do some preprocessing
   // Is called by AuthorizationTokenInterceptor
-  updateCredential(tdaCredential: Partial<TdaCredential>): Promise<void>;
+  updateCredential(tdaCredential: Partial<SchwabCredential>): Promise<void>;
 
   // Makes the call to update the credential to the persistent store.
   // Is called by updateCredential. See above.
-  update(tdaCredential: TdaCredential): Promise<void>;
+  update(tdaCredential: SchwabCredential): Promise<void>;
 }

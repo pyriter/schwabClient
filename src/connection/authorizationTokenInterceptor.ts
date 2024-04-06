@@ -1,6 +1,6 @@
 import {GrantType, oauth, OAuthData} from '../api/authenticate';
 import {AUTHENTICATION, OAUTH2_TOKEN} from './routes.config';
-import {CredentialProvider, TdaCredential} from '../providers/credentialProvider';
+import {CredentialProvider, SchwabCredential} from '../providers/credentialProvider';
 import {AxiosError} from 'axios';
 import {Interceptor} from './interceptor';
 import {Client} from './client';
@@ -72,11 +72,11 @@ export class AuthorizationTokenInterceptor extends Interceptor {
     });
   }
 
-  private async getCredential(): Promise<TdaCredential> {
+  private async getCredential(): Promise<SchwabCredential> {
     return await this.credentialProvider.getCredential.bind(this.credentialProvider)();
   }
 
-  private async updateCredential(tdaCredential: Partial<TdaCredential>): Promise<void> {
+  private async updateCredential(tdaCredential: Partial<SchwabCredential>): Promise<void> {
     await this.credentialProvider.updateCredential.bind(this.credentialProvider, tdaCredential)();
   }
 }

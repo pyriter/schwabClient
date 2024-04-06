@@ -2,7 +2,7 @@ import {LocalFileCredentialProvider} from '../providers/localFileCredentialProvi
 import {AuthorizationTokenInterceptor} from '../connection/authorizationTokenInterceptor';
 import {CREDENTIALS_FILE_NAME} from './constants';
 import {Client} from '../connection/client';
-import {TdaClient} from '../connection/tdaClient';
+import {SchwabClient} from '../connection/schwabClient';
 import {LocalCacheCredentialProvider} from '../providers/localCacheCrendentialProvider';
 
 export function provideClientWithLocalFileCredentialProvider() {
@@ -35,19 +35,19 @@ export async function provideClientWithLocalCacheCredentialProvider() {
   return client;
 }
 
-export async function providerTdaClientWithLocalCacheProvider(): Promise<TdaClient> {
+export async function providerTdaClientWithLocalCacheProvider(): Promise<SchwabClient> {
   const localFileCredentialProvider = new LocalFileCredentialProvider(CREDENTIALS_FILE_NAME);
   const {access_token, client_id, refresh_token} = await localFileCredentialProvider.getCredential();
-  return TdaClient.from({
+  return SchwabClient.from({
     access_token,
     client_id,
     refresh_token,
   });
 }
 
-export async function providerTdaClientWithLocalFileProvider(): Promise<TdaClient> {
+export async function providerTdaClientWithLocalFileProvider(): Promise<SchwabClient> {
   const localFileCredentialProvider = new LocalFileCredentialProvider(CREDENTIALS_FILE_NAME);
-  return TdaClient.from({
+  return SchwabClient.from({
     authorizationInterceptor: new AuthorizationTokenInterceptor(localFileCredentialProvider),
   });
 }

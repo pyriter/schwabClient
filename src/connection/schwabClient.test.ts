@@ -1,11 +1,11 @@
-import { TdaClient } from './tdaClient';
+import { SchwabClient } from './schwabClient';
 import { OptionChainConfig } from '../models/optionChain';
 import { HoursConfig } from '../models/hours';
 import { providerTdaClientWithLocalCacheProvider, providerTdaClientWithLocalFileProvider } from '../utils/testUtils';
 
 describe('TdaClient', () => {
   describe('Instantiate with local cache', () => {
-    let tdaClientWithLocalCache: TdaClient;
+    let tdaClientWithLocalCache: SchwabClient;
     beforeAll(async () => {
       tdaClientWithLocalCache = await providerTdaClientWithLocalCacheProvider();
     });
@@ -41,7 +41,7 @@ describe('TdaClient', () => {
   });
 
   describe('Instantiate with locale file credential provider', () => {
-    let tdaClientWithLocalFile: TdaClient;
+    let tdaClientWithLocalFile: SchwabClient;
     beforeAll(async () => {
       tdaClientWithLocalFile = await providerTdaClientWithLocalFileProvider();
     });

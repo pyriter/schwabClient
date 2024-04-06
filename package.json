@@ -1,6 +1,6 @@
 {
-  "name": "tdaclient",
-  "version": "1.12.1",
+  "name": "@pyriter/schwab-client",
+  "version": "0.0.0",
   "description": "Schwab Client",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -61,9 +61,9 @@
     }
   },
   "bugs": {
-    "url": "https://github.com/pyriter/tdaclient/issues"
+    "url": "https://github.com/pyriter/schwabclient/issues"
   },
-  "homepage": "https://github.com/pyriter/tdaclient#readme",
+  "homepage": "https://github.com/pyriter/schwabclient#readme",
   "keywords": [],
   "files": [
     "dist/**/*"

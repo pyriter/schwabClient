@@ -1,6 +1,6 @@
 import { Interceptor } from './interceptor';
 import { CredentialProvider } from '../providers/credentialProvider';
-import { TdaClientBuilder } from './tdaClientBuilder';
+import { SchwabClientBuilder } from './schwabClientBuilder';
 import {
   CancelOrderConfig,
   GetOrderConfig,
@@ -27,11 +27,11 @@ import { PriceHistoryConfig, PriceHistoryResponse } from '../models/priceHistory
 import { PriceHistoryApi } from '../api/priceHistory';
 import { oauth, OAuthData, OAuthResponse } from '../api/authenticate';
 
-export interface TdaClientConfig {
+export interface SchwabClientConfig {
   authorizationInterceptor: Interceptor;
 }
 
-export interface TdaClientBuilderConfig {
+export interface SchwabClientBuilderConfig {
   access_token?: string;
   refresh_token?: string;
   client_id?: string;
@@ -41,7 +41,7 @@ export interface TdaClientBuilderConfig {
   authorizationInterceptor?: AuthorizationTokenInterceptor;
 }
 
-export class TdaClient {
+export class SchwabClient {
   private accountApi: AccountApi;
   private ordersApi: OrdersApi;
   private optionChainApi: OptionChainApi;
@@ -51,7 +51,7 @@ export class TdaClient {
   private priceHistoryApi: PriceHistoryApi;
   private client: Client;
 
-  constructor(private config: TdaClientConfig) {
+  constructor(private config: SchwabClientConfig) {
     const client = new Client();
     client.addInterceptor(config.authorizationInterceptor);
 
@@ -65,8 +65,8 @@ export class TdaClient {
     this.client = client;
   }
 
-  static from(config: TdaClientBuilderConfig): TdaClient {
-    return new TdaClientBuilder(config).build();
+  static from(config: SchwabClientBuilderConfig): SchwabClient {
+    return new SchwabClientBuilder(config).build();
   }
 
   async getAccount(): Promise<SecuritiesAccount[]> {

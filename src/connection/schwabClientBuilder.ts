@@ -1,15 +1,15 @@
 import { AuthorizationTokenInterceptor } from './authorizationTokenInterceptor';
 import { LocalFileCredentialProvider } from '../providers/localFileCredentialProvider';
 import { LocalCacheCredentialProvider } from '../providers/localCacheCrendentialProvider';
-import { TdaCredential } from '../providers/credentialProvider';
-import { TdaClient, TdaClientBuilderConfig } from './tdaClient';
+import { SchwabCredential } from '../providers/credentialProvider';
+import { SchwabClient, SchwabClientBuilderConfig } from './schwabClient';
 
-export class TdaClientBuilder {
-  constructor(private config: TdaClientBuilderConfig) {}
+export class SchwabClientBuilder {
+  constructor(private config: SchwabClientBuilderConfig) {}
 
-  build(): TdaClient {
+  build(): SchwabClient {
     const authorizationInterceptor = this.getAuthorizationInterceptor();
-    return new TdaClient({
+    return new SchwabClient({
       authorizationInterceptor,
     });
   }
@@ -26,7 +26,7 @@ export class TdaClientBuilder {
         refresh_token,
         client_id,
         redirect_uri,
-      } as TdaCredential);
+      } as SchwabCredential);
     }
     return new AuthorizationTokenInterceptor(provider);
   }

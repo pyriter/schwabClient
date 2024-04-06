@@ -1,1 +1,1 @@
-export { TdaClient } from './connection/tdaClient';
+export {SchwabClient} from './connection/schwabClient';

@@ -10,5 +10,6 @@ describe('Accounts', () => {
     expect(response);
     expect(securitiesAccount?.currentBalances).toBeDefined();
     expect(securitiesAccount?.accountNumber).toBeDefined();
+    expect(securitiesAccount?.accountId).toBeDefined();
   });
 });

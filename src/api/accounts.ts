@@ -16,7 +16,12 @@ export class AccountApi {
       responseType: ResponseType.JSON,
       arrayFormat: ArrayFormatType.COMMA,
     } as Request);
-    return response.data.map((d) => d.securitiesAccount) as SecuritiesAccount[];
+    return response.data.map((d) => {
+      return {
+        ...d.securitiesAccount,
+        accountId: d.securitiesAccount.accountNumber
+      }
+    }) as SecuritiesAccount[];
   }
 
   generateAccountUrl({ accountId }) {

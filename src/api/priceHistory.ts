@@ -1,13 +1,12 @@
-import {ArrayFormatType, Request, ResponseType} from '../models/connect';
-import {PRICE_HISTORY} from '../connection/routes.config';
+import { ArrayFormatType, Request, ResponseType } from '../models/connect';
+import { PRICE_HISTORY } from '../connection/routes.config';
 
-import {convertToValidSymbol} from '../utils/symbol';
-import {Client} from '../connection/client';
-import {PriceHistoryConfig, PriceHistoryResponse} from '../models/priceHistory';
+import { convertToValidSymbol } from '../utils/symbol';
+import { Client } from '../connection/client';
+import { PriceHistoryConfig, PriceHistoryResponse } from '../models/priceHistory';
 
 export class PriceHistoryApi {
-  constructor(private client: Client) {
-  }
+  constructor(private client: Client) {}
 
   async getPriceHistory(config: PriceHistoryConfig): Promise<PriceHistoryResponse> {
     const params = this.processConfig(config);
@@ -23,7 +22,7 @@ export class PriceHistoryApi {
   }
 
   processConfig(config: PriceHistoryConfig) {
-    const {periodType, period, frequencyType, frequency, endDate, startDate, needExtendedHoursData} = config;
+    const { periodType, period, frequencyType, frequency, endDate, startDate, needExtendedHoursData } = config;
     const symbol = convertToValidSymbol(config.symbol);
     return {
       periodType,
@@ -33,7 +32,7 @@ export class PriceHistoryApi {
       endDate,
       startDate,
       needExtendedHoursData,
-      symbol
+      symbol,
     };
   }
 }

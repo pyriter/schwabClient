@@ -1,7 +1,7 @@
-import {ArrayFormatType, Request, ResponseType} from '../models/connect';
-import {OAUTH2_TOKEN} from '../connection/routes.config';
-import {Client} from '../connection/client';
-import {btoa} from "node:buffer";
+import { ArrayFormatType, Request, ResponseType } from '../models/connect';
+import { OAUTH2_TOKEN } from '../connection/routes.config';
+import { Client } from '../connection/client';
+import { btoa } from 'node:buffer';
 
 export enum GrantType {
   AUTHORIZATION_CODE = 'authorization_code',
@@ -24,7 +24,7 @@ export interface OAuthResponse {
   expires_in: number;
   scope: string;
   refresh_token_expires_in: number;
-  id_token: string
+  id_token: string;
 }
 
 /*
@@ -34,13 +34,13 @@ export interface OAuthResponse {
  Or if you have a refresh token, it can be used to get another access token
  */
 export async function oauth(oAuthData: OAuthData, client: Client): Promise<OAuthResponse> {
-  const {grant_type, code, redirect_uri, client_id, client_secret, refresh_token} = oAuthData;
+  const { grant_type, code, redirect_uri, client_id, client_secret, refresh_token } = oAuthData;
   const data = {
     grant_type,
     code,
     redirect_uri,
-    refresh_token
-  }
+    refresh_token,
+  };
   const authorization = btoa(`${client_id}:${client_secret}`);
   const response = await client.post({
     url: OAUTH2_TOKEN,
@@ -48,8 +48,8 @@ export async function oauth(oAuthData: OAuthData, client: Client): Promise<OAuth
     responseType: ResponseType.URL_FORM_ENCODED,
     arrayFormat: ArrayFormatType.COMMA,
     headers: {
-      'Authorization': `Basic ${authorization}`
-    }
+      Authorization: `Basic ${authorization}`,
+    },
   } as Request);
   return response.data;
 }

@@ -1,9 +1,9 @@
-import {GrantType, oauth, OAuthData} from '../api/authenticate';
-import {AUTHENTICATION, OAUTH2_TOKEN} from './routes.config';
-import {CredentialProvider, SchwabCredential} from '../providers/credentialProvider';
-import {AxiosError} from 'axios';
-import {Interceptor} from './interceptor';
-import {Client} from './client';
+import { GrantType, oauth, OAuthData } from '../api/authenticate';
+import { AUTHENTICATION, OAUTH2_TOKEN } from './routes.config';
+import { CredentialProvider, SchwabCredential } from '../providers/credentialProvider';
+import { AxiosError } from 'axios';
+import { Interceptor } from './interceptor';
+import { Client } from './client';
 
 const MAX_RETRIES = 1;
 
@@ -22,7 +22,7 @@ export class AuthorizationTokenInterceptor extends Interceptor {
   }
 
   async onErrorResponseHandler(error: AxiosError, client: Client): Promise<any> {
-    const {config, response} = error;
+    const { config, response } = error;
 
     if (config.url?.includes(OAUTH2_TOKEN) || config.url?.includes(AUTHENTICATION)) return error;
 
@@ -43,20 +43,19 @@ export class AuthorizationTokenInterceptor extends Interceptor {
   }
 
   private async getAccessToken(): Promise<string> {
-    const {access_token} = await this.getCredential();
+    const { access_token } = await this.getCredential();
     return access_token;
   }
 
-
   private async generateOAuthData(): Promise<OAuthData> {
     const tdaCredential = await this.getCredential();
-    const {client_id, redirect_uri, refresh_token, client_secret, code} = tdaCredential;
+    const { client_id, redirect_uri, refresh_token, client_secret, code } = tdaCredential;
     return {
       client_secret,
       client_id,
       redirect_uri,
       refresh_token,
-      grant_type: GrantType.REFRESH_TOKEN
+      grant_type: GrantType.REFRESH_TOKEN,
     };
   }
 
@@ -68,7 +67,7 @@ export class AuthorizationTokenInterceptor extends Interceptor {
     await this.updateCredential({
       ...credential,
       access_token_modified_date: now,
-      refresh_token_modified_date: now
+      refresh_token_modified_date: now,
     });
   }
 

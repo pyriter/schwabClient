@@ -1,1 +1,1 @@
-export {SchwabClient} from './connection/schwabClient';
+export { SchwabClient } from './connection/schwabClient';

@@ -8,7 +8,7 @@ const ROUTES = {
     optionChain: '/marketdata/v1/chains',
     quotes: '/marketdata/v1/quotes',
     hours: '/marketdata/v1/markets',
-    priceHistory: '/marketdata/v1/pricehistory'
+    priceHistory: '/marketdata/v1/pricehistory',
   },
 };
 

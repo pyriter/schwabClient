@@ -19,8 +19,8 @@ export class AccountApi {
     return response.data.map((d) => {
       return {
         ...d.securitiesAccount,
-        accountId: d.securitiesAccount.accountNumber
-      }
+        accountId: d.securitiesAccount.accountNumber,
+      };
     }) as SecuritiesAccount[];
   }
 

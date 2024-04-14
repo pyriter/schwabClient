@@ -29,7 +29,7 @@ export async function provideClientWithLocalCacheCredentialProvider() {
     refresh_token_expires_in: 0,
     refresh_token_modified_date: 0,
     user_name: '',
-    password: ''
+    password: '',
   });
   const client = new Client();
   const authorizationInterceptor = new AuthorizationTokenInterceptor(localProvider);

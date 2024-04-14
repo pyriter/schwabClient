@@ -18,7 +18,7 @@ export enum QueryTransactionType {
   MEMORANDUM = 'MEMORANDUM',
   MARGIN_CALL = 'MARGIN_CALL',
   MONEY_MARKET = 'MONEY_MARKET',
-  SMA_ADJUSTMENT = 'SMA_ADJUSTMENT'
+  SMA_ADJUSTMENT = 'SMA_ADJUSTMENT',
 }
 
 export interface GetTransactionsByQueryConfig {

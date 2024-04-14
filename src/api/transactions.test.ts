@@ -1,8 +1,8 @@
-import {SecuritiesAccount} from '../models/accounts';
-import {QueryTransactionType, TransactionType} from '../models/transaction';
-import {AccountApi} from './accounts';
-import {provideClientWithLocalFileCredentialProvider} from '../utils/testUtils';
-import {TransactionsApi} from './transactions';
+import { SecuritiesAccount } from '../models/accounts';
+import { QueryTransactionType, TransactionType } from '../models/transaction';
+import { AccountApi } from './accounts';
+import { provideClientWithLocalFileCredentialProvider } from '../utils/testUtils';
+import { TransactionsApi } from './transactions';
 
 describe('Transactions', () => {
   let validAccount: SecuritiesAccount;
@@ -23,7 +23,7 @@ describe('Transactions', () => {
       accountId: validAccount.hashValue,
       startDate: pastDate.toISOString(),
       endDate: new Date().toISOString(),
-      types: QueryTransactionType.ELECTRONIC_FUND
+      types: QueryTransactionType.ELECTRONIC_FUND,
     });
 
     expect(response.length).toBeGreaterThanOrEqual(0);

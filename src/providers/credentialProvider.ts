@@ -12,6 +12,8 @@ export interface SchwabCredential {
   redirect_uri: string;
   code: string;
   id_token: string;
+  user_name: string;
+  password: string;
 }
 
 export interface CredentialProvider {

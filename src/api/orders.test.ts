@@ -1,4 +1,4 @@
-import { OrdersApi } from './orders';
+import {OrdersApi} from './orders';
 import {
   AssetType,
   ComplexOrderStrategyType,
@@ -14,17 +14,17 @@ import {
   SessionType,
   StatusType,
 } from '../models/order';
-import { provideClientWithLocalFileCredentialProvider } from '../utils/testUtils';
-import { SecuritiesAccount } from '../models/accounts';
-import { ContractType, OptionChainConfig, OptionStrategyType, RangeType } from '../models/optionChain';
-import { QuotesIndex } from '../models/quotes';
-import { convertToMonth } from '../utils/month';
-import { AccountApi } from './accounts';
-import { OptionChainApi } from './optionChain';
-import { QuotesApi } from './quotes';
+import {provideClientWithLocalFileCredentialProvider} from '../utils/testUtils';
+import {SecuritiesAccount} from '../models/accounts';
+import {ContractType, OptionChainConfig, OptionStrategyType, RangeType} from '../models/optionChain';
+import {QuotesIndex} from '../models/quotes';
+import {convertToMonth} from '../utils/month';
+import {AccountApi} from './accounts';
+import {OptionChainApi} from './optionChain';
+import {QuotesApi} from './quotes';
 
-xdescribe('Orders', () => {
-  let validAccount;
+describe('Orders', () => {
+  let validAccount: SecuritiesAccount;
   const client = provideClientWithLocalFileCredentialProvider();
   const ordersApi = new OrdersApi(client);
   const accountApi = new AccountApi(client);
@@ -32,7 +32,7 @@ xdescribe('Orders', () => {
   const quotesApi = new QuotesApi(client);
 
   beforeAll(async () => {
-    // validAccount = await checkForValidAccount();
+    validAccount = await checkForValidAccount();
   });
 
   it('should be able to get orders after a certain date', async () => {
@@ -47,13 +47,12 @@ xdescribe('Orders', () => {
     });
   });
 
-  it('should be able to get orders for a specific account given an account id', async () => {
-    // Get account
-    const accountResponse = await accountApi.getAccount();
-    const accountId = accountResponse[0].accountNumber;
+  it('should be able to get all orders from 3 months ago', async () => {
+    const today = new Date();
+    const pastDate = new Date();
+    pastDate.setMonth(today.getMonth() - 3);
     const response = await ordersApi.getOrdersByQuery({
-      accountId,
-      fromEnteredTime: new Date().toISOString(),
+      fromEnteredTime: pastDate.toISOString(),
       toEnteredTime: new Date().toISOString(),
     });
 
@@ -61,7 +60,7 @@ xdescribe('Orders', () => {
   });
 
   it('should be able to place a stock order and then cancel it', async () => {
-    const accountId = validAccount.accountId;
+    const accountId = validAccount.hashValue;
     const order = {
       orderType: OrderType.LIMIT,
       price: 10.0,
@@ -79,6 +78,7 @@ xdescribe('Orders', () => {
         },
       ],
     } as Order;
+
     const orderConfig = {
       accountId,
       order,
@@ -104,10 +104,10 @@ xdescribe('Orders', () => {
     expect(getOrderResponse).toBeTruthy();
   });
 
-  xit('should be able to place a put credit spread and then cancel it', async () => {
+  it('should be able to place a put credit spread and then cancel it', async () => {
     const symbol = 'SPX';
 
-    const accountId = validAccount.accountId;
+    const accountId = validAccount.hashValue;
 
     const optionOrder = await generateOptionsOrder(symbol);
 
@@ -130,7 +130,7 @@ xdescribe('Orders', () => {
   xit('should be able to place a put credit spread, replace it, and then cancel it', async () => {
     const symbol = 'SPX';
 
-    const accountId = validAccount.accountId;
+    const accountId = validAccount.hashValue;
 
     const optionOrder = await generateOptionsOrder(symbol);
 
@@ -139,10 +139,10 @@ xdescribe('Orders', () => {
       order: optionOrder,
     } as OrdersConfig;
 
-    const { orderId: placedOrderId } = await ordersApi.placeOrder(orderConfig);
+    const {orderId: placedOrderId} = await ordersApi.placeOrder(orderConfig);
 
     optionOrder.price = optionOrder.price + 0.5;
-    const { orderId: replacedOrderId } = await ordersApi.replaceOrder({
+    const {orderId: replacedOrderId} = await ordersApi.replaceOrder({
       accountId,
       order: optionOrder,
       orderId: placedOrderId,
@@ -158,11 +158,12 @@ xdescribe('Orders', () => {
   });
 
   async function checkForValidAccount(): Promise<SecuritiesAccount> {
-    const accountResponse = await accountApi.getAccount();
+    const accountResponse = await accountApi.getAllAccounts();
     const account = accountResponse.filter((r) => r.currentBalances.buyingPower > 10).pop();
     if (!account) {
       throw Error('Since there is no money in account, we cannot run this test');
     }
+
     return account;
   }
 
@@ -183,9 +184,9 @@ xdescribe('Orders', () => {
       range: RangeType.OTM,
       expMonth: convertToMonth(new Date().getMonth()),
     } as OptionChainConfig);
-    const { optionStrategyList } = optionChainResponse.monthlyStrategyList[0];
+    const {optionStrategyList} = optionChainResponse.monthlyStrategyList[0];
 
-    const { primaryLeg, secondaryLeg, strategyBid, strategyAsk } = optionStrategyList[0];
+    const {primaryLeg, secondaryLeg, strategyBid, strategyAsk} = optionStrategyList[0];
 
     const price = (strategyBid + strategyAsk) / 2;
     return {

@@ -1,31 +1,63 @@
-import { ArrayFormatType, Request, ResponseType } from '../models/connect';
-import { AccountConfig, SecuritiesAccount } from '../models/accounts';
-import { ACCOUNTS } from '../connection/routes.config';
-import { Client } from '../connection/client';
+import {ArrayFormatType, Request, ResponseType} from '../models/connect';
+import {AccountConfig, AccountNumberMetadata, SecuritiesAccount} from '../models/accounts';
+import {ACCOUNTS} from '../connection/routes.config';
+import {Client} from '../connection/client';
 
 export class AccountApi {
-  constructor(private client: Client) {}
+  constructor(private client: Client) {
+  }
 
-  async getAccount(config: AccountConfig = {}): Promise<SecuritiesAccount[]> {
-    const url = this.generateAccountUrl({ accountId: config.accountId });
+  async getAllAccounts(): Promise<SecuritiesAccount[]> {
+    const url = `${ACCOUNTS}`;
     const response = await this.client.get({
       url,
-      params: {
-        fields: config.fields,
-      },
       responseType: ResponseType.JSON,
       arrayFormat: ArrayFormatType.COMMA,
     } as Request);
+    const accountMetadatas = await this.getAccountNumbers();
     return response.data.map((d) => {
+      const securitiesAccount = d.securitiesAccount;
+      const accountMetadata = accountMetadatas.find(a => a.accountNumber === securitiesAccount.accountNumber);
       return {
-        ...d.securitiesAccount,
+        ...securitiesAccount,
         accountId: d.securitiesAccount.accountNumber,
-      };
+        hashValue: accountMetadata?.hashValue
+      } as SecuritiesAccount;
     }) as SecuritiesAccount[];
   }
 
-  generateAccountUrl({ accountId }) {
-    const accountUIdUrlString = accountId ? '/' + accountId : '';
+  async getAccount(config: AccountConfig): Promise<SecuritiesAccount> {
+    const url = this.generateAccountUrl({accountIdHashValue: config.accountNumberHashValue});
+    const response = await this.client.get({
+      url,
+      responseType: ResponseType.JSON,
+      arrayFormat: ArrayFormatType.COMMA,
+    } as Request);
+
+    const accountMetadatas = await this.getAccountNumbers();
+    const sc = response.data.securitiesAccount;
+    const am = accountMetadatas.find(a => a.accountNumber === sc.accountNumber);
+
+    return {
+      ...sc,
+      accountId: sc.accountNumber,
+      hashValue: am?.hashValue
+    }
+  }
+
+  async getAccountNumbers(): Promise<AccountNumberMetadata[]> {
+    const url = `${ACCOUNTS}/accountNumbers`
+    const response = await this.client.get({
+      url,
+      responseType: ResponseType.JSON,
+      arrayFormat: ArrayFormatType.COMMA,
+    } as Request);
+    return response.data;
+  }
+
+  generateAccountUrl(config: { accountIdHashValue: string }): string {
+    const {accountIdHashValue} = config;
+    const accountUIdUrlString = accountIdHashValue ? '/' + accountIdHashValue : '';
     return `${ACCOUNTS}${accountUIdUrlString}`;
   }
 }

@@ -70,7 +70,7 @@ export class SchwabClient {
   }
 
   async getAccount(): Promise<SecuritiesAccount[]> {
-    return await this.accountApi.getAccount();
+    return await this.accountApi.getAllAccounts();
   }
 
   async placeOrder(config: OrdersConfig): Promise<PlaceOrderResponse> {

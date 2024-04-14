@@ -266,7 +266,6 @@ export interface Instrument {
 }
 
 export interface OrdersByQueryConfig {
-  accountId?: string;
   maxResults?: number;
   fromEnteredTime: string; // yyyy-MM-dd,
   toEnteredTime: string; // yyyy-MM-dd

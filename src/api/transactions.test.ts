@@ -14,9 +14,9 @@ xdescribe('Transactions', () => {
     validAccount = await checkForValidAccount();
   });
 
-  xit('should be able to get transactions given an account id', async () => {
+  it('should be able to get transactions given an account id', async () => {
     const response = await transactionApi.getTransactions({
-      accountId: validAccount.accountNumber,
+      accountId: validAccount.hashValue,
     });
 
     expect(response.length).toBeGreaterThanOrEqual(0);
@@ -47,7 +47,7 @@ xdescribe('Transactions', () => {
   });
 
   async function checkForValidAccount(): Promise<SecuritiesAccount> {
-    const accountResponse = await accountApi.getAccount();
+    const accountResponse = await accountApi.getAllAccounts();
     const valid = accountResponse.filter((r) => r.currentBalances.buyingPower > 10).pop();
     if (!valid) {
       throw Error('Since there is no money in account, we cannot run this test');

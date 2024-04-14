@@ -1,6 +1,10 @@
+export type AccountNumberMetadata = {
+  accountNumber: string,
+  hashValue: string
+}
+
 export interface AccountConfig {
-  accountId?: string;
-  fields?: any;
+  accountNumberHashValue: string;
 }
 
 export interface InitialBalances {
@@ -84,6 +88,7 @@ export interface Balances {
 export interface SecuritiesAccount {
   type: string;
   accountId: string;
+  hashValue: string;
   accountNumber: string;
   roundTrips: number;
   isDayTrader: boolean;

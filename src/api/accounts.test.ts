@@ -1,5 +1,5 @@
-import {AccountApi} from './accounts';
-import {provideClientWithLocalFileCredentialProvider} from '../utils/testUtils';
+import { AccountApi } from './accounts';
+import { provideClientWithLocalFileCredentialProvider } from '../utils/testUtils';
 
 describe('Accounts', () => {
   const accountApi = new AccountApi(provideClientWithLocalFileCredentialProvider());
@@ -25,9 +25,9 @@ describe('Accounts', () => {
   it('should be able to get account info given encrypted account id', async () => {
     const response = await accountApi.getAccountNumbers();
     const accountNumberMetadata = response.pop();
-    const {hashValue} = accountNumberMetadata || {hashValue: ""};
+    const { hashValue } = accountNumberMetadata || { hashValue: '' };
 
-    const securitiesAccount = await accountApi.getAccount({accountNumberHashValue: hashValue});
+    const securitiesAccount = await accountApi.getAccount({ accountNumberHashValue: hashValue });
 
     expect(securitiesAccount.accountNumber).toBeDefined();
     expect(securitiesAccount.accountId).toBeDefined();

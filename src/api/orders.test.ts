@@ -1,4 +1,4 @@
-import {OrdersApi} from './orders';
+import { OrdersApi } from './orders';
 import {
   AssetType,
   ComplexOrderStrategyType,
@@ -14,14 +14,14 @@ import {
   SessionType,
   StatusType,
 } from '../models/order';
-import {provideClientWithLocalFileCredentialProvider} from '../utils/testUtils';
-import {SecuritiesAccount} from '../models/accounts';
-import {ContractType, OptionChainConfig, OptionStrategyType, RangeType} from '../models/optionChain';
-import {QuotesIndex} from '../models/quotes';
-import {convertToMonth} from '../utils/month';
-import {AccountApi} from './accounts';
-import {OptionChainApi} from './optionChain';
-import {QuotesApi} from './quotes';
+import { provideClientWithLocalFileCredentialProvider } from '../utils/testUtils';
+import { SecuritiesAccount } from '../models/accounts';
+import { ContractType, OptionChainConfig, OptionStrategyType, RangeType } from '../models/optionChain';
+import { QuotesIndex } from '../models/quotes';
+import { convertToMonth } from '../utils/month';
+import { AccountApi } from './accounts';
+import { OptionChainApi } from './optionChain';
+import { QuotesApi } from './quotes';
 
 describe('Orders', () => {
   let validAccount: SecuritiesAccount;
@@ -139,10 +139,10 @@ describe('Orders', () => {
       order: optionOrder,
     } as OrdersConfig;
 
-    const {orderId: placedOrderId} = await ordersApi.placeOrder(orderConfig);
+    const { orderId: placedOrderId } = await ordersApi.placeOrder(orderConfig);
 
     optionOrder.price = optionOrder.price + 0.5;
-    const {orderId: replacedOrderId} = await ordersApi.replaceOrder({
+    const { orderId: replacedOrderId } = await ordersApi.replaceOrder({
       accountId,
       order: optionOrder,
       orderId: placedOrderId,
@@ -184,9 +184,9 @@ describe('Orders', () => {
       range: RangeType.OTM,
       expMonth: convertToMonth(new Date().getMonth()),
     } as OptionChainConfig);
-    const {optionStrategyList} = optionChainResponse.monthlyStrategyList[0];
+    const { optionStrategyList } = optionChainResponse.monthlyStrategyList[0];
 
-    const {primaryLeg, secondaryLeg, strategyBid, strategyAsk} = optionStrategyList[0];
+    const { primaryLeg, secondaryLeg, strategyBid, strategyAsk } = optionStrategyList[0];
 
     const price = (strategyBid + strategyAsk) / 2;
     return {

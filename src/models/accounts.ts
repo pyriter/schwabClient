@@ -1,7 +1,7 @@
 export type AccountNumberMetadata = {
-  accountNumber: string,
-  hashValue: string
-}
+  accountNumber: string;
+  hashValue: string;
+};
 
 export interface AccountConfig {
   accountNumberHashValue: string;

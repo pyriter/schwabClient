@@ -1,10 +1,10 @@
-import { SecuritiesAccount } from '../models/accounts';
-import { TransactionType } from '../models/transaction';
-import { AccountApi } from './accounts';
-import { provideClientWithLocalFileCredentialProvider } from '../utils/testUtils';
-import { TransactionsApi } from './transactions';
+import {SecuritiesAccount} from '../models/accounts';
+import {QueryTransactionType, TransactionType} from '../models/transaction';
+import {AccountApi} from './accounts';
+import {provideClientWithLocalFileCredentialProvider} from '../utils/testUtils';
+import {TransactionsApi} from './transactions';
 
-xdescribe('Transactions', () => {
+describe('Transactions', () => {
   let validAccount: SecuritiesAccount;
   const client = provideClientWithLocalFileCredentialProvider();
   const accountApi = new AccountApi(client);
@@ -15,8 +15,15 @@ xdescribe('Transactions', () => {
   });
 
   it('should be able to get transactions given an account id', async () => {
-    const response = await transactionApi.getTransactions({
+    const today = new Date();
+    const pastDate = new Date();
+    pastDate.setMonth(today.getMonth() - 3);
+
+    const response = await transactionApi.getTransactionsByQuery({
       accountId: validAccount.hashValue,
+      startDate: pastDate.toISOString(),
+      endDate: new Date().toISOString(),
+      types: QueryTransactionType.ELECTRONIC_FUND
     });
 
     expect(response.length).toBeGreaterThanOrEqual(0);
@@ -32,15 +39,6 @@ xdescribe('Transactions', () => {
     const response = await transactionApi.getTransactions({
       accountId: validAccount.accountNumber,
       transactionId: transaction?.transactionId,
-    });
-
-    expect(response.length).toBeGreaterThanOrEqual(0);
-  });
-
-  it('should be able to get transactions given type and start date', async () => {
-    const response = await transactionApi.getTransactionsByQuery({
-      accountId: validAccount.accountNumber,
-      startDate: '2022-03-01',
     });
 
     expect(response.length).toBeGreaterThanOrEqual(0);

@@ -4,24 +4,29 @@ export interface GetTransactionsConfig {
 }
 
 export enum QueryTransactionType {
-  ALL = 'ALL',
   TRADE = 'TRADE',
-  BUY_ONLY = 'BUY_ONLY',
-  SELL_ONLY = 'SELL_ONLY',
-  CASH_IN_OR_CASH_OUT = 'CASH_IN_OR_CASH_OUT',
-  CHECKING = 'CHECKING',
-  DIVIDEND = 'DIVIDEND',
-  INTEREST = 'INTEREST',
-  OTHER = 'OTHER',
-  ADVISOR_FEES = 'ADVISOR_FEES',
+  RECEIVE_AND_DELIVER = 'RECEIVE_AND_DELIVER',
+  DIVIDEND_OR_INTEREST = 'DIVIDEND_OR_INTEREST',
+  ACH_RECEIPT = 'ACH_RECEIPT',
+  ACH_DISBURSEMENT = 'ACH_DISBURSEMENT',
+  CASH_RECEIPT = 'CASH_RECEIPT',
+  CASH_DISBURSEMENT = 'CASH_DISBURSEMENT',
+  ELECTRONIC_FUND = 'ELECTRONIC_FUND',
+  WIRE_OUT = 'WIRE_OUT',
+  WIRE_IN = 'WIRE_IN',
+  JOURNAL = 'JOURNAL',
+  MEMORANDUM = 'MEMORANDUM',
+  MARGIN_CALL = 'MARGIN_CALL',
+  MONEY_MARKET = 'MONEY_MARKET',
+  SMA_ADJUSTMENT = 'SMA_ADJUSTMENT'
 }
 
 export interface GetTransactionsByQueryConfig {
   accountId: string;
-  type?: QueryTransactionType;
+  types: QueryTransactionType;
   symbol?: string;
-  startDate?: string;
-  endDate?: string;
+  startDate: string;
+  endDate: string;
 }
 
 export enum TransactionType {

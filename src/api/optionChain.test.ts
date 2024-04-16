@@ -1,9 +1,9 @@
-import {provideClientWithLocalCacheCredentialProvider} from '../utils/testUtils';
-import {OptionChainApi} from './optionChain';
-import {ContractType, Month, OptionChainConfig, OptionStrategyType, OptionType} from '../models/optionChain';
-import {QuotesApi} from './quotes';
-import {Quote} from '../models/quotes';
-import {getYYYYMMDD} from "../utils/month";
+import { provideClientWithLocalCacheCredentialProvider } from '../utils/testUtils';
+import { OptionChainApi } from './optionChain';
+import { ContractType, Month, OptionChainConfig, OptionStrategyType, OptionType } from '../models/optionChain';
+import { QuotesApi } from './quotes';
+import { Quote } from '../models/quotes';
+import { getYYYYMMDD } from '../utils/month';
 
 describe('OptionChain', () => {
   const symbol = 'SPX';

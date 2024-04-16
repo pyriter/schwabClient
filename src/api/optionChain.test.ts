@@ -1,8 +1,9 @@
-import { provideClientWithLocalCacheCredentialProvider } from '../utils/testUtils';
-import { OptionChainApi } from './optionChain';
-import { ContractType, Month, OptionChainConfig, OptionStrategyType, OptionType } from '../models/optionChain';
-import { QuotesApi } from './quotes';
-import { Quote } from '../models/quotes';
+import {provideClientWithLocalCacheCredentialProvider} from '../utils/testUtils';
+import {OptionChainApi} from './optionChain';
+import {ContractType, Month, OptionChainConfig, OptionStrategyType, OptionType} from '../models/optionChain';
+import {QuotesApi} from './quotes';
+import {Quote} from '../models/quotes';
+import {getYYYYMMDD} from "../utils/month";
 
 describe('OptionChain', () => {
   const symbol = 'SPX';
@@ -43,6 +44,20 @@ describe('OptionChain', () => {
     } as OptionChainConfig);
 
     expect(response.monthlyStrategyList.pop());
+  });
+
+  it('should get vertical put spreads with a width of 5 x', async () => {
+    const date = new Date(Date.now());
+    date.setDate(date.getDate() + 5);
+    const toDate = getYYYYMMDD(date);
+    const response = await optionChainApi.getOptionChain({
+      symbol: 'SPX',
+      contractType: ContractType.PUT,
+      strategy: OptionStrategyType.SINGLE,
+      toDate,
+    } as OptionChainConfig);
+
+    expect(response.putExpDateMap).toBeDefined();
   });
 
   xit('should get put spreads that are at a specific dte and price', async () => {

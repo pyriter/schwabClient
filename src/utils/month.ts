@@ -1,4 +1,4 @@
-import { Month } from '../models/optionChain';
+import {Month} from '../models/optionChain';
 
 export function convertToMonth(month: number) {
   switch (month) {
@@ -27,4 +27,18 @@ export function convertToMonth(month: number) {
     case 11:
       return Month.DEC;
   }
+}
+
+export function getYYYYMMDD(date: Date): string {
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();
+  const day = date.getDate();
+  const yearStr = padNumber(year, 4);
+  const monthStr = padNumber(month, 2);
+  const dayStr = padNumber(day, 2);
+  return `${yearStr}-${monthStr}-${dayStr}`;
+}
+
+export function padNumber(n: number, padding: number): string {
+  return String(n).padStart(padding, '0');
 }

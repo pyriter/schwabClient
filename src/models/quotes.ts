@@ -14,7 +14,7 @@ export type Quote = {
     exchange: string;
     exchangeName: string;
   };
-  quote: QuoteIndex;
+  quote: QuotesIndex;
   regular: {
     regularMarketLastPrice: number;
     regularMarketLastSize: number;
@@ -35,7 +35,7 @@ export type Quote = {
   };
 };
 
-export type QuoteIndex = {
+export type QuotesIndex = {
   '52WeekHigh': number;
   '52WeekLow': number;
   askMICId: string;

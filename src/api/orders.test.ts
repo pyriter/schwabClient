@@ -173,11 +173,11 @@ describe('Orders', () => {
     });
 
     const spx = quotesResponse[0] as QuotesIndex;
-    console.log(spx.lastPrice);
+    console.log(spx.quote.lastPrice);
 
     const optionChainResponse = await optionChainApi.getOptionChain({
       symbol,
-      strike: spx.closePrice - 50, // TODO: Get the price by querying the market
+      strike: spx.quote.closePrice - 50, // TODO: Get the price by querying the market
       interval: 5,
       contractType: ContractType.PUT,
       strategy: OptionStrategyType.VERTICAL,

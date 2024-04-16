@@ -1,9 +1,9 @@
-import { ArrayFormatType, Request, ResponseType } from '../models/connect';
-import { QUOTES } from '../connection/routes.config';
+import {ArrayFormatType, Request, ResponseType} from '../models/connect';
+import {QUOTES} from '../connection/routes.config';
 
-import { QuotesConfig, QuotesEtf, QuotesIndex } from '../models/quotes';
-import { convertToValidSymbols } from '../utils/symbol';
-import { Client } from '../connection/client';
+import {QuotesConfig, QuotesIndex} from '../models/quotes';
+import {convertToValidSymbols} from '../utils/symbol';
+import {Client} from '../connection/client';
 
 export class QuotesApi {
   constructor(private client: Client) {}
@@ -11,7 +11,7 @@ export class QuotesApi {
   /*
  All orders for a specific account or, if account ID isn't specified, orders will be returned for all linked accounts.
   */
-  async getQuotes(config?: QuotesConfig): Promise<(QuotesIndex | QuotesEtf)[]> {
+  async getQuotes(config?: QuotesConfig): Promise<(QuotesIndex)[]> {
     const params = this.processConfig(config);
     const url = QUOTES;
     const response = await this.client.get({
@@ -31,7 +31,7 @@ export class QuotesApi {
     };
   }
 
-  processResponse(data: any): (QuotesIndex | QuotesEtf)[] {
+  processResponse(data: any): (QuotesIndex)[] {
     return Object.values(data);
   }
 }

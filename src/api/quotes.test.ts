@@ -1,5 +1,5 @@
-import { provideClientWithLocalFileCredentialProvider } from '../utils/testUtils';
-import { QuotesApi } from './quotes';
+import {provideClientWithLocalFileCredentialProvider} from '../utils/testUtils';
+import {QuotesApi} from './quotes';
 
 describe('Quotes', () => {
   const quotesApi = new QuotesApi(provideClientWithLocalFileCredentialProvider());
@@ -9,8 +9,9 @@ describe('Quotes', () => {
     const quotesResponse = await quotesApi.getQuotes({
       symbols: [symbol],
     });
-    expect(quotesResponse);
-    expect(quotesResponse[symbol]);
+    const quoteIndex = quotesResponse[0];
+    expect(quotesResponse.length).toEqual(1);
+    expect(quoteIndex.quote.lastPrice).toBeDefined();
   });
 
   it('should get quote of more than one symbol', async () => {
@@ -19,8 +20,6 @@ describe('Quotes', () => {
     const quotesResponse = await quotesApi.getQuotes({
       symbols: [symbol1, symbol2],
     });
-    expect(quotesResponse);
-    expect(quotesResponse[symbol1]);
-    expect(quotesResponse[symbol2]);
+    expect(quotesResponse.length).toEqual(2);
   });
 });

@@ -23,7 +23,7 @@ describe('OptionChain', () => {
   it('should get options chain given strike', async () => {
     const response = await optionChainApi.getOptionChain({
       symbol,
-      strike: spx.closePrice,
+      strike: spx.quote.closePrice,
       strikeCount: 10,
       optionType: OptionType.ALL,
     } as OptionChainConfig);
@@ -35,7 +35,7 @@ describe('OptionChain', () => {
   it('should get vertical put spreads with a width of 5', async () => {
     const response = await optionChainApi.getOptionChain({
       symbol,
-      strike: spx.closePrice - 100,
+      strike: spx.quote.closePrice - 100,
       strikeCount: 10,
       interval: 5,
       contractType: ContractType.PUT,

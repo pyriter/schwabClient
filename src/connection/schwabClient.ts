@@ -12,7 +12,7 @@ import {
 } from '../models/order';
 import { AuthorizationTokenInterceptor } from './authorizationTokenInterceptor';
 import { OptionChainConfig, OptionChainResponse } from '../models/optionChain';
-import { QuotesConfig, QuotesEtf, QuotesIndex } from '../models/quotes';
+import { QuotesConfig, QuotesIndex } from '../models/quotes';
 import { SecuritiesAccount } from '../models/accounts';
 import { GetTransactionsByQueryConfig, GetTransactionsConfig, Transaction } from '../models/transaction';
 import { Client } from './client';
@@ -85,7 +85,7 @@ export class SchwabClient {
     return await this.optionChainApi.getOptionChain(config);
   }
 
-  async getQuotes(config: QuotesConfig): Promise<(QuotesIndex | QuotesEtf)[]> {
+  async getQuotes(config: QuotesConfig): Promise<(QuotesIndex)[]> {
     return await this.quotesApi.getQuotes(config);
   }
 

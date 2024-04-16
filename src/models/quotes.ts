@@ -2,61 +2,63 @@ export interface QuotesConfig {
   symbols: string[];
 }
 
-export interface QuotesIndex {
-  symbol: string;
-  description: string;
-  lastPrice: number;
-  openPrice: number;
-  highPrice: number;
-  lowPrice: number;
-  closePrice: number;
-  netChange: number;
-  totalVolume: number;
-  tradeTimeInLong: number;
-  exchange: string;
-  exchangeName: string;
-  digits: number;
-  '52WkHigh': number;
-  '52WkLow': number;
-  securityStatus: string;
-}
-
-export interface QuotesEtf {
-  symbol: string;
-  description: string;
-  bidPrice: number;
-  bidSize: number;
-  bidId: string;
-  askPrice: number;
-  askSize: number;
-  askId: string;
-  lastPrice: number;
-  lastSize: number;
-  lastId: string;
-  openPrice: number;
-  highPrice: number;
-  lowPrice: number;
-  closePrice: number;
-  netChange: number;
-  totalVolume: number;
-  quoteTimeInLong: number;
-  tradeTimeInLong: number;
-  mark: number;
-  exchange: string;
-  exchangeName: string;
-  marginable: boolean;
-  shortable: boolean;
-  volatility: number;
-  digits: number;
-  '52WkHigh': number;
-  '52WkLow': number;
-  peRatio: number;
-  divAmount: number;
-  divYield: number;
-  divDate: string;
-  securityStatus: string;
-  regularMarketLastPrice: number;
-  regularMarketLastSize: number;
-  regularMarketNetChange: number;
-  regularMarketTradeTimeInLong: number;
+export type QuotesIndex = {
+  "assetMainType": string,
+  "symbol": string,
+  "quoteType": string,
+  "realtime": boolean,
+  "ssid": number,
+  "reference": {
+    "cusip": string,
+    "description": string,
+    "exchange": string,
+    "exchangeName": string
+  },
+  "quote": {
+    "52WeekHigh": number,
+    "52WeekLow": number,
+    "askMICId": string,
+    "askPrice": number,
+    "askSize": number,
+    "askTime": number,
+    "bidMICId": string,
+    "bidPrice": number,
+    "bidSize": number,
+    "bidTime": number,
+    "closePrice": number,
+    "highPrice": number,
+    "lastMICId": string,
+    "lastPrice": number,
+    "lastSize": number,
+    "lowPrice": number,
+    "mark": number,
+    "markChange": number,
+    "markPercentChange": number,
+    "netChange": number,
+    "netPercentChange": number,
+    "openPrice": number,
+    "quoteTime": number,
+    "securityStatus": string,
+    "totalVolume": number,
+    "tradeTime": number,
+    "volatility": number
+  },
+  "regular": {
+    "regularMarketLastPrice": number,
+    "regularMarketLastSize": number,
+    "regularMarketNetChange": number,
+    "regularMarketPercentChange": number,
+    "regularMarketTradeTime": number
+  },
+  "fundamental": {
+    "avg10DaysVolume": number,
+    "avg1YearVolume": number,
+    "divAmount": number,
+    "divFreq": number,
+    "divPayAmount": number,
+    "divYield": number,
+    "eps": number,
+    "fundLeverageFactor": number,
+    "peRatio": number
+  }
 }

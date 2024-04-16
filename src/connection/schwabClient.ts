@@ -85,7 +85,7 @@ export class SchwabClient {
     return await this.optionChainApi.getOptionChain(config);
   }
 
-  async getQuotes(config: QuotesConfig): Promise<(QuotesIndex)[]> {
+  async getQuotes(config: QuotesConfig): Promise<QuotesIndex[]> {
     return await this.quotesApi.getQuotes(config);
   }
 

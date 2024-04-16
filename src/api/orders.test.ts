@@ -17,7 +17,7 @@ import {
 import { provideClientWithLocalFileCredentialProvider } from '../utils/testUtils';
 import { SecuritiesAccount } from '../models/accounts';
 import { ContractType, OptionChainConfig, OptionStrategyType, RangeType } from '../models/optionChain';
-import { QuotesIndex } from '../models/quotes';
+import { Quote } from '../models/quotes';
 import { convertToMonth } from '../utils/month';
 import { AccountApi } from './accounts';
 import { OptionChainApi } from './optionChain';
@@ -172,7 +172,7 @@ describe('Orders', () => {
       symbols: [symbol],
     });
 
-    const spx = quotesResponse[0] as QuotesIndex;
+    const spx = quotesResponse[0] as Quote;
     console.log(spx.quote.lastPrice);
 
     const optionChainResponse = await optionChainApi.getOptionChain({

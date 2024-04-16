@@ -2,13 +2,13 @@ import { provideClientWithLocalCacheCredentialProvider } from '../utils/testUtil
 import { OptionChainApi } from './optionChain';
 import { ContractType, Month, OptionChainConfig, OptionStrategyType, OptionType } from '../models/optionChain';
 import { QuotesApi } from './quotes';
-import { QuotesIndex } from '../models/quotes';
+import { Quote } from '../models/quotes';
 
 describe('OptionChain', () => {
   const symbol = 'SPX';
   let optionChainApi: OptionChainApi;
   let quotesApi: QuotesApi;
-  let spx: QuotesIndex;
+  let spx: Quote;
 
   beforeAll(async () => {
     const provider = await provideClientWithLocalCacheCredentialProvider();

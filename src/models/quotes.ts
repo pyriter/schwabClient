@@ -2,7 +2,7 @@ export interface QuotesConfig {
   symbols: string[];
 }
 
-export type QuotesIndex = {
+export type Quote = {
   assetMainType: string;
   symbol: string;
   quoteType: string;
@@ -14,35 +14,7 @@ export type QuotesIndex = {
     exchange: string;
     exchangeName: string;
   };
-  quote: {
-    '52WeekHigh': number;
-    '52WeekLow': number;
-    askMICId: string;
-    askPrice: number;
-    askSize: number;
-    askTime: number;
-    bidMICId: string;
-    bidPrice: number;
-    bidSize: number;
-    bidTime: number;
-    closePrice: number;
-    highPrice: number;
-    lastMICId: string;
-    lastPrice: number;
-    lastSize: number;
-    lowPrice: number;
-    mark: number;
-    markChange: number;
-    markPercentChange: number;
-    netChange: number;
-    netPercentChange: number;
-    openPrice: number;
-    quoteTime: number;
-    securityStatus: string;
-    totalVolume: number;
-    tradeTime: number;
-    volatility: number;
-  };
+  quote: QuoteIndex;
   regular: {
     regularMarketLastPrice: number;
     regularMarketLastSize: number;
@@ -61,4 +33,34 @@ export type QuotesIndex = {
     fundLeverageFactor: number;
     peRatio: number;
   };
+};
+
+export type QuoteIndex = {
+  '52WeekHigh': number;
+  '52WeekLow': number;
+  askMICId: string;
+  askPrice: number;
+  askSize: number;
+  askTime: number;
+  bidMICId: string;
+  bidPrice: number;
+  bidSize: number;
+  bidTime: number;
+  closePrice: number;
+  highPrice: number;
+  lastMICId: string;
+  lastPrice: number;
+  lastSize: number;
+  lowPrice: number;
+  mark: number;
+  markChange: number;
+  markPercentChange: number;
+  netChange: number;
+  netPercentChange: number;
+  openPrice: number;
+  quoteTime: number;
+  securityStatus: string;
+  totalVolume: number;
+  tradeTime: number;
+  volatility: number;
 };

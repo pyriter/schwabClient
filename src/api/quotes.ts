@@ -1,7 +1,7 @@
 import { ArrayFormatType, Request, ResponseType } from '../models/connect';
 import { QUOTES } from '../connection/routes.config';
 
-import { QuotesConfig, QuotesIndex } from '../models/quotes';
+import { QuotesConfig, Quote } from '../models/quotes';
 import { convertToValidSymbols } from '../utils/symbol';
 import { Client } from '../connection/client';
 
@@ -11,7 +11,7 @@ export class QuotesApi {
   /*
  All orders for a specific account or, if account ID isn't specified, orders will be returned for all linked accounts.
   */
-  async getQuotes(config?: QuotesConfig): Promise<QuotesIndex[]> {
+  async getQuotes(config?: QuotesConfig): Promise<Quote[]> {
     const params = this.processConfig(config);
     const url = QUOTES;
     const response = await this.client.get({
@@ -31,7 +31,7 @@ export class QuotesApi {
     };
   }
 
-  processResponse(data: any): QuotesIndex[] {
+  processResponse(data: any): Quote[] {
     return Object.values(data);
   }
 }

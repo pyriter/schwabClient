@@ -5,20 +5,20 @@ import { providerTdaClientWithLocalCacheProvider, providerTdaClientWithLocalFile
 
 describe('TdaClient', () => {
   describe('Instantiate with local cache', () => {
-    let tdaClientWithLocalCache: SchwabClient;
+    let schwabClient: SchwabClient;
     beforeAll(async () => {
-      tdaClientWithLocalCache = await providerTdaClientWithLocalCacheProvider();
+      schwabClient = await providerTdaClientWithLocalCacheProvider();
     });
 
     it('should be able to get account information', async () => {
-      const account = (await tdaClientWithLocalCache.getAccount()).pop();
+      const account = (await schwabClient.getAccount()).pop();
 
       expect(account).toBeDefined();
       expect(account?.accountNumber).toBeDefined();
     });
 
     it('should be able to get options chain', async () => {
-      const response = await tdaClientWithLocalCache.getOptionChain({
+      const response = await schwabClient.getOptionChain({
         symbol: 'SPY',
         strike: 470,
         strikeCount: 10,
@@ -29,7 +29,7 @@ describe('TdaClient', () => {
     });
 
     it('should be able to market hours', async () => {
-      const response = await tdaClientWithLocalCache.getHours({
+      const response = await schwabClient.getHours({
         markets: ['EQUITY', 'OPTION'],
       } as HoursConfig);
 

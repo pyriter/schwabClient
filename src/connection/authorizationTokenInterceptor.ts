@@ -27,7 +27,7 @@ export class AuthorizationTokenInterceptor extends Interceptor {
     if (config.url?.includes(OAUTH2_TOKEN) || config.url?.includes(AUTHENTICATION)) return error;
 
     if (response?.status === 401 && this.authTokenRefreshRetries > 0) {
-      console.error(`Response is 401: ${JSON.stringify(error)}`);
+      console.info(`Response is 401: ${JSON.stringify(error)}`);
       this.authTokenRefreshRetries--;
       await this.refreshAccessToken(client);
       const secondResponse = await client.connect(config);

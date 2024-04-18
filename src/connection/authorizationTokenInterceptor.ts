@@ -22,7 +22,7 @@ export class AuthorizationTokenInterceptor extends Interceptor {
   }
 
   async onErrorResponseHandler(error: AxiosError, client: Client): Promise<any> {
-    const { config, response } = error;
+    const { config = {}, response } = error;
 
     if (config.url?.includes(OAUTH2_TOKEN) || config.url?.includes(AUTHENTICATION)) return error;
 

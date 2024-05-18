@@ -1,4 +1,4 @@
-import {OrdersApi} from './orders';
+import { OrdersApi } from './orders';
 import {
   AssetType,
   ComplexOrderStrategyType,
@@ -14,14 +14,14 @@ import {
   SessionType,
   StatusType,
 } from '../models/order';
-import {provideClientWithLocalFileCredentialProvider} from '../utils/testUtils';
-import {SecuritiesAccount} from '../models/accounts';
-import {ContractType, OptionChainConfig, OptionStrategyType, RangeType} from '../models/optionChain';
-import {Quote} from '../models/quotes';
-import {convertToMonth} from '../utils/month';
-import {AccountApi} from './accounts';
-import {OptionChainApi} from './optionChain';
-import {QuotesApi} from './quotes';
+import { provideClientWithLocalFileCredentialProvider } from '../utils/testUtils';
+import { SecuritiesAccount } from '../models/accounts';
+import { ContractType, OptionChainConfig, OptionStrategyType, RangeType } from '../models/optionChain';
+import { Quote } from '../models/quotes';
+import { convertToMonth } from '../utils/month';
+import { AccountApi } from './accounts';
+import { OptionChainApi } from './optionChain';
+import { QuotesApi } from './quotes';
 
 xdescribe('Orders', () => {
   let validAccount: SecuritiesAccount;
@@ -121,8 +121,8 @@ xdescribe('Orders', () => {
 
     const getOrderInfoResponse1 = await ordersApi.getOrder({
       accountId: validAccount.hashValue,
-      orderId
-    })
+      orderId,
+    });
 
     if (getOrderInfoResponse1.status === StatusType.WORKING) {
       await ordersApi.cancelOrder({
@@ -133,11 +133,13 @@ xdescribe('Orders', () => {
 
     const getOrderInfoResponse2 = await ordersApi.getOrder({
       accountId: validAccount.hashValue,
-      orderId
-    })
+      orderId,
+    });
 
     expect(placeOrdersResponse.orderId).toBeTruthy();
-    expect(getOrderInfoResponse2.status === StatusType.CANCELED || getOrderInfoResponse2.status === StatusType.REJECTED).toBeTruthy();
+    expect(
+      getOrderInfoResponse2.status === StatusType.CANCELED || getOrderInfoResponse2.status === StatusType.REJECTED,
+    ).toBeTruthy();
   });
 
   it('should be able to place a call credit spread and then cancel it', async () => {
@@ -175,10 +177,10 @@ xdescribe('Orders', () => {
       order: optionOrder,
     } as OrdersConfig;
 
-    const {orderId: placedOrderId} = await ordersApi.placeOrder(orderConfig);
+    const { orderId: placedOrderId } = await ordersApi.placeOrder(orderConfig);
 
     optionOrder.price = optionOrder.price + 0.5;
-    const {orderId: replacedOrderId} = await ordersApi.replaceOrder({
+    const { orderId: replacedOrderId } = await ordersApi.replaceOrder({
       accountId,
       order: optionOrder,
       orderId: placedOrderId,
@@ -220,11 +222,11 @@ xdescribe('Orders', () => {
       strategy: OptionStrategyType.VERTICAL,
       range: RangeType.OTM,
       expMonth: convertToMonth(new Date().getMonth()),
-      daysToExpiration: 1
+      daysToExpiration: 1,
     } as OptionChainConfig);
-    const {optionStrategyList} = optionChainResponse.monthlyStrategyList[1];
+    const { optionStrategyList } = optionChainResponse.monthlyStrategyList[1];
 
-    const {primaryLeg, secondaryLeg, strategyBid, strategyAsk} = optionStrategyList[0];
+    const { primaryLeg, secondaryLeg, strategyBid, strategyAsk } = optionStrategyList[0];
 
     const price = (strategyBid + strategyAsk) / 2;
     return {

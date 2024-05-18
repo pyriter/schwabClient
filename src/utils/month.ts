@@ -1,5 +1,5 @@
 import { Month } from '../models/optionChain';
-import {DateTime} from 'luxon';
+import { DateTime } from 'luxon';
 
 export function convertToMonth(month: number) {
   switch (month) {

@@ -1,7 +1,10 @@
 import { SchwabClient } from './schwabClient';
 import { OptionChainConfig } from '../models/optionChain';
 import { HoursConfig } from '../models/hours';
-import { provideSchwabClientWithLocalCacheProvider, provideSchwabClientWithLocalFileProvider } from '../utils/testUtils';
+import {
+  provideSchwabClientWithLocalCacheProvider,
+  provideSchwabClientWithLocalFileProvider,
+} from '../utils/testUtils';
 
 describe('SchwabClient', () => {
   describe('Instantiate with local cache', () => {
@@ -47,7 +50,7 @@ describe('SchwabClient', () => {
     });
 
     it('should be able to get account information', async () => {
-      const accounts = (await schwabClient.getAllAccounts());
+      const accounts = await schwabClient.getAllAccounts();
       const account = accounts.pop();
 
       expect(account).toBeDefined();

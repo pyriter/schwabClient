@@ -1,6 +1,6 @@
-import {Interceptor} from './interceptor';
-import {CredentialProvider} from '../providers/credentialProvider';
-import {SchwabClientBuilder} from './schwabClientBuilder';
+import { Interceptor } from './interceptor';
+import { CredentialProvider } from '../providers/credentialProvider';
+import { SchwabClientBuilder } from './schwabClientBuilder';
 import {
   CancelOrderConfig,
   GetOrderConfig,
@@ -10,22 +10,22 @@ import {
   PlaceOrderResponse,
   ReplaceOrdersConfig,
 } from '../models/order';
-import {AuthorizationTokenInterceptor} from './authorizationTokenInterceptor';
-import {OptionChainConfig, OptionChainResponse} from '../models/optionChain';
-import {QuotesConfig, Quote} from '../models/quotes';
-import {AccountConfig, SecuritiesAccount} from '../models/accounts';
-import {GetTransactionsByQueryConfig, GetTransactionsConfig, Transaction} from '../models/transaction';
-import {Client} from './client';
-import {AccountApi} from '../api/accounts';
-import {OrdersApi} from '../api/orders';
-import {OptionChainApi} from '../api/optionChain';
-import {QuotesApi} from '../api/quotes';
-import {TransactionsApi} from '../api/transactions';
-import {HoursConfig, HoursResponse} from '../models/hours';
-import {HoursApi} from '../api/hours';
-import {PriceHistoryConfig, PriceHistoryResponse} from '../models/priceHistory';
-import {PriceHistoryApi} from '../api/priceHistory';
-import {oauth, OAuthData, OAuthResponse} from '../api/authenticate';
+import { AuthorizationTokenInterceptor } from './authorizationTokenInterceptor';
+import { OptionChainConfig, OptionChainResponse } from '../models/optionChain';
+import { QuotesConfig, Quote } from '../models/quotes';
+import { AccountConfig, SecuritiesAccount } from '../models/accounts';
+import { GetTransactionsByQueryConfig, GetTransactionsConfig, Transaction } from '../models/transaction';
+import { Client } from './client';
+import { AccountApi } from '../api/accounts';
+import { OrdersApi } from '../api/orders';
+import { OptionChainApi } from '../api/optionChain';
+import { QuotesApi } from '../api/quotes';
+import { TransactionsApi } from '../api/transactions';
+import { HoursConfig, HoursResponse } from '../models/hours';
+import { HoursApi } from '../api/hours';
+import { PriceHistoryConfig, PriceHistoryResponse } from '../models/priceHistory';
+import { PriceHistoryApi } from '../api/priceHistory';
+import { oauth, OAuthData, OAuthResponse } from '../api/authenticate';
 
 export interface SchwabClientConfig {
   authorizationInterceptor: Interceptor;
@@ -78,13 +78,13 @@ export class SchwabClient {
     const target = accountMetadata.find((a) => a.accountNumber === accountNumber);
     if (!target) throw new Error(`Account number ${accountNumber} does not exists`);
     return await this.accountApi.getAccount({
-      accountNumberHashValue: target.hashValue
+      accountNumberHashValue: target.hashValue,
     });
   }
 
   async getAccountByHash(accountHashValue: string): Promise<SecuritiesAccount> {
     return await this.accountApi.getAccount({
-      accountNumberHashValue: accountHashValue
+      accountNumberHashValue: accountHashValue,
     });
   }
 

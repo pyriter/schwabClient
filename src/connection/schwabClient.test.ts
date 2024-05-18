@@ -1,17 +1,17 @@
 import { SchwabClient } from './schwabClient';
 import { OptionChainConfig } from '../models/optionChain';
 import { HoursConfig } from '../models/hours';
-import { providerTdaClientWithLocalCacheProvider, providerTdaClientWithLocalFileProvider } from '../utils/testUtils';
+import { provideSchwabClientWithLocalCacheProvider, provideSchwabClientWithLocalFileProvider } from '../utils/testUtils';
 
-describe('TdaClient', () => {
+describe('SchwabClient', () => {
   describe('Instantiate with local cache', () => {
     let schwabClient: SchwabClient;
     beforeAll(async () => {
-      schwabClient = await providerTdaClientWithLocalCacheProvider();
+      schwabClient = await provideSchwabClientWithLocalCacheProvider();
     });
 
     it('should be able to get account information', async () => {
-      const account = (await schwabClient.getAccount()).pop();
+      const account = (await schwabClient.getAllAccounts()).pop();
 
       expect(account).toBeDefined();
       expect(account?.accountNumber).toBeDefined();
@@ -41,20 +41,21 @@ describe('TdaClient', () => {
   });
 
   describe('Instantiate with locale file credential provider', () => {
-    let tdaClientWithLocalFile: SchwabClient;
+    let schwabClient: SchwabClient;
     beforeAll(async () => {
-      tdaClientWithLocalFile = await providerTdaClientWithLocalFileProvider();
+      schwabClient = await provideSchwabClientWithLocalFileProvider();
     });
 
     it('should be able to get account information', async () => {
-      const account = (await tdaClientWithLocalFile.getAccount()).pop();
+      const accounts = (await schwabClient.getAllAccounts());
+      const account = accounts.pop();
 
       expect(account).toBeDefined();
       expect(account?.accountNumber).toBeDefined();
     });
 
     it('should be able to get options chain', async () => {
-      const response = await tdaClientWithLocalFile.getOptionChain({
+      const response = await schwabClient.getOptionChain({
         symbol: 'SPY',
         strike: 470,
         strikeCount: 10,
@@ -65,7 +66,7 @@ describe('TdaClient', () => {
     });
 
     it('should be able to market hours', async () => {
-      const response = await tdaClientWithLocalFile.getHours({
+      const response = await schwabClient.getHours({
         markets: ['EQUITY', 'OPTION'],
       } as HoursConfig);
 

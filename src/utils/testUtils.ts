@@ -37,7 +37,7 @@ export async function provideClientWithLocalCacheCredentialProvider() {
   return client;
 }
 
-export async function providerTdaClientWithLocalCacheProvider(): Promise<SchwabClient> {
+export async function provideSchwabClientWithLocalCacheProvider(): Promise<SchwabClient> {
   const localFileCredentialProvider = new LocalFileCredentialProvider(CREDENTIALS_FILE_NAME);
   const { access_token, client_id, refresh_token } = await localFileCredentialProvider.getCredential();
   return SchwabClient.from({
@@ -47,7 +47,7 @@ export async function providerTdaClientWithLocalCacheProvider(): Promise<SchwabC
   });
 }
 
-export async function providerTdaClientWithLocalFileProvider(): Promise<SchwabClient> {
+export async function provideSchwabClientWithLocalFileProvider(): Promise<SchwabClient> {
   const localFileCredentialProvider = new LocalFileCredentialProvider(CREDENTIALS_FILE_NAME);
   return SchwabClient.from({
     authorizationInterceptor: new AuthorizationTokenInterceptor(localFileCredentialProvider),

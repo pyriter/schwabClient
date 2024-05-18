@@ -1,9 +1,10 @@
-import { provideClientWithLocalCacheCredentialProvider } from '../utils/testUtils';
-import { OptionChainApi } from './optionChain';
-import { ContractType, Month, OptionChainConfig, OptionStrategyType, OptionType } from '../models/optionChain';
-import { QuotesApi } from './quotes';
-import { Quote } from '../models/quotes';
-import { getYYYYMMDD } from '../utils/month';
+import {provideClientWithLocalCacheCredentialProvider} from '../utils/testUtils';
+import {OptionChainApi} from './optionChain';
+import {ContractType, Month, OptionChainConfig, OptionStrategyType, OptionType} from '../models/optionChain';
+import {QuotesApi} from './quotes';
+import {Quote} from '../models/quotes';
+import {getYYYYMMDD, getYYYYMMDDFromDateTime} from '../utils/month';
+import {DateTime} from 'luxon';
 
 describe('OptionChain', () => {
   const symbol = 'SPX';
@@ -36,11 +37,10 @@ describe('OptionChain', () => {
   it('should get vertical put spreads with a width of 5', async () => {
     const response = await optionChainApi.getOptionChain({
       symbol,
-      strike: spx.quote.closePrice - 100,
-      strikeCount: 10,
       interval: 5,
       contractType: ContractType.PUT,
       strategy: OptionStrategyType.VERTICAL,
+      toDate: getYYYYMMDDFromDateTime(DateTime.now().plus({ day: 5 })),
     } as OptionChainConfig);
 
     expect(response.monthlyStrategyList.pop());
@@ -55,6 +55,17 @@ describe('OptionChain', () => {
       contractType: ContractType.PUT,
       strategy: OptionStrategyType.SINGLE,
       toDate,
+    } as OptionChainConfig);
+
+    expect(response.putExpDateMap).toBeDefined();
+  });
+
+  it('should get single put spreads with a width of 5', async () => {
+    const response = await optionChainApi.getOptionChain({
+      symbol: 'SPX',
+      contractType: ContractType.PUT,
+      strategy: OptionStrategyType.SINGLE,
+      toDate: getYYYYMMDDFromDateTime(DateTime.now().plus({ day: 1 })),
     } as OptionChainConfig);
 
     expect(response.putExpDateMap).toBeDefined();

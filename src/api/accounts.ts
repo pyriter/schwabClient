@@ -1,10 +1,11 @@
-import { ArrayFormatType, Request, ResponseType } from '../models/connect';
-import { AccountConfig, AccountNumberMetadata, SecuritiesAccount } from '../models/accounts';
-import { ACCOUNTS } from '../connection/routes.config';
-import { Client } from '../connection/client';
+import {ArrayFormatType, Request, ResponseType} from '../models/connect';
+import {AccountConfig, AccountNumberMetadata, SecuritiesAccount} from '../models/accounts';
+import {ACCOUNTS} from '../connection/routes.config';
+import {Client} from '../connection/client';
 
 export class AccountApi {
-  constructor(private client: Client) {}
+  constructor(private client: Client) {
+  }
 
   async getAllAccounts(): Promise<SecuritiesAccount[]> {
     const url = `${ACCOUNTS}`;
@@ -26,21 +27,19 @@ export class AccountApi {
   }
 
   async getAccount(config: AccountConfig): Promise<SecuritiesAccount> {
-    const url = this.generateAccountUrl({ accountIdHashValue: config.accountNumberHashValue });
+    const url = this.generateAccountUrl({accountIdHashValue: config.accountNumberHashValue});
     const response = await this.client.get({
       url,
       responseType: ResponseType.JSON,
       arrayFormat: ArrayFormatType.COMMA,
     } as Request);
 
-    const accountMetadatas = await this.getAccountNumbers();
-    const sc = response.data.securitiesAccount;
-    const am = accountMetadatas.find((a) => a.accountNumber === sc.accountNumber);
+    const securitiesAccount = response.data.securitiesAccount;
 
     return {
-      ...sc,
-      accountId: sc.accountNumber,
-      hashValue: am?.hashValue,
+      ...securitiesAccount,
+      accountId: securitiesAccount.accountNumber,
+      hashValue: config.accountNumberHashValue,
     };
   }
 
@@ -55,7 +54,7 @@ export class AccountApi {
   }
 
   generateAccountUrl(config: { accountIdHashValue: string }): string {
-    const { accountIdHashValue } = config;
+    const {accountIdHashValue} = config;
     const accountUIdUrlString = accountIdHashValue ? '/' + accountIdHashValue : '';
     return `${ACCOUNTS}${accountUIdUrlString}`;
   }

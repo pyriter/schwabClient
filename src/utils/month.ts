@@ -1,4 +1,5 @@
 import { Month } from '../models/optionChain';
+import {DateTime} from 'luxon';
 
 export function convertToMonth(month: number) {
   switch (month) {
@@ -33,6 +34,14 @@ export function getYYYYMMDD(date: Date): string {
   const month = date.getMonth() + 1;
   const year = date.getFullYear();
   const day = date.getDate();
+  const yearStr = padNumber(year, 4);
+  const monthStr = padNumber(month, 2);
+  const dayStr = padNumber(day, 2);
+  return `${yearStr}-${monthStr}-${dayStr}`;
+}
+
+export function getYYYYMMDDFromDateTime(date: DateTime): string {
+  const { year, month, day } = date;
   const yearStr = padNumber(year, 4);
   const monthStr = padNumber(month, 2);
   const dayStr = padNumber(day, 2);

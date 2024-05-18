@@ -37,9 +37,32 @@ To gain access to the Schwab (TDA) APIs, you will need to get an access token fr
 
 ### Instantiate the SchwabClient object
 
-At the bare minimum, you will need to provide an access token and client id and client secret in order to instantiate the schwabClient. This
-can be done in a few ways...
+At the bare minimum, you will need to provide an access token and client id and client secret in order to instantiate the schwabClient.
 
+### Development setup for running tests
+
+1. Create a credentials.json file at the package root level with the following information:
+```json
+{
+  "client_id": "",
+  "client_secret": "",
+  "redirect_uri": "http://localhost/"
+}
+```
+2. Run the script to generate the login url
+```bash
+node ./generateAuthUrl.js
+```
+3. Open the url provided from the output of step #2 in a browser and login to Schwab.
+4. After logging in and agreeing to the terms. You will then get to a redirect to `localhost` with the code as part of the query params. Copy this url link in its entirety.
+5. Within the terminal run the script to generate the auth token
+```bash
+node ./extractAuthCode.js [paste-your-url-from-step-4-here]
+```
+6. Run the tests
+```bash
+npm tests
+```
 ### Publishing to npm
 
 This command will update the package version and then publish to the public npm repo

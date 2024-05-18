@@ -1,4 +1,4 @@
-import { OrdersApi } from './orders';
+import {OrdersApi} from './orders';
 import {
   AssetType,
   ComplexOrderStrategyType,
@@ -14,16 +14,16 @@ import {
   SessionType,
   StatusType,
 } from '../models/order';
-import { provideClientWithLocalFileCredentialProvider } from '../utils/testUtils';
-import { SecuritiesAccount } from '../models/accounts';
-import { ContractType, OptionChainConfig, OptionStrategyType, RangeType } from '../models/optionChain';
-import { Quote } from '../models/quotes';
-import { convertToMonth } from '../utils/month';
-import { AccountApi } from './accounts';
-import { OptionChainApi } from './optionChain';
-import { QuotesApi } from './quotes';
+import {provideClientWithLocalFileCredentialProvider} from '../utils/testUtils';
+import {SecuritiesAccount} from '../models/accounts';
+import {ContractType, OptionChainConfig, OptionStrategyType, RangeType} from '../models/optionChain';
+import {Quote} from '../models/quotes';
+import {convertToMonth} from '../utils/month';
+import {AccountApi} from './accounts';
+import {OptionChainApi} from './optionChain';
+import {QuotesApi} from './quotes';
 
-describe('Orders', () => {
+xdescribe('Orders', () => {
   let validAccount: SecuritiesAccount;
   const client = provideClientWithLocalFileCredentialProvider();
   const ordersApi = new OrdersApi(client);
@@ -104,12 +104,48 @@ describe('Orders', () => {
     expect(getOrderResponse).toBeTruthy();
   });
 
-  xit('should be able to place a put credit spread and then cancel it', async () => {
+  it('should be able to place a put credit spread and then cancel it', async () => {
     const symbol = 'SPX';
 
     const accountId = validAccount.hashValue;
 
-    const optionOrder = await generateOptionsOrder(symbol);
+    const optionOrder = await generateOptionsOrder(symbol, PutCall.PUT);
+
+    const orderConfig = {
+      accountId,
+      order: optionOrder,
+    } as OrdersConfig;
+
+    const placeOrdersResponse = await ordersApi.placeOrder(orderConfig);
+    const orderId = placeOrdersResponse.orderId;
+
+    const getOrderInfoResponse1 = await ordersApi.getOrder({
+      accountId: validAccount.hashValue,
+      orderId
+    })
+
+    if (getOrderInfoResponse1.status === StatusType.WORKING) {
+      await ordersApi.cancelOrder({
+        accountId,
+        orderId,
+      });
+    }
+
+    const getOrderInfoResponse2 = await ordersApi.getOrder({
+      accountId: validAccount.hashValue,
+      orderId
+    })
+
+    expect(placeOrdersResponse.orderId).toBeTruthy();
+    expect(getOrderInfoResponse2.status === StatusType.CANCELED || getOrderInfoResponse2.status === StatusType.REJECTED).toBeTruthy();
+  });
+
+  it('should be able to place a call credit spread and then cancel it', async () => {
+    const symbol = 'SPX';
+
+    const accountId = validAccount.hashValue;
+
+    const optionOrder = await generateOptionsOrder(symbol, PutCall.CALL);
 
     const orderConfig = {
       accountId,
@@ -132,17 +168,17 @@ describe('Orders', () => {
 
     const accountId = validAccount.hashValue;
 
-    const optionOrder = await generateOptionsOrder(symbol);
+    const optionOrder = await generateOptionsOrder(symbol, PutCall.PUT);
 
     const orderConfig = {
       accountId,
       order: optionOrder,
     } as OrdersConfig;
 
-    const { orderId: placedOrderId } = await ordersApi.placeOrder(orderConfig);
+    const {orderId: placedOrderId} = await ordersApi.placeOrder(orderConfig);
 
     optionOrder.price = optionOrder.price + 0.5;
-    const { orderId: replacedOrderId } = await ordersApi.replaceOrder({
+    const {orderId: replacedOrderId} = await ordersApi.replaceOrder({
       accountId,
       order: optionOrder,
       orderId: placedOrderId,
@@ -167,26 +203,28 @@ describe('Orders', () => {
     return account;
   }
 
-  async function generateOptionsOrder(symbol: string) {
+  async function generateOptionsOrder(symbol: string, putCall: PutCall) {
     const quotesResponse = await quotesApi.getQuotes({
       symbols: [symbol],
     });
 
     const spx = quotesResponse[0] as Quote;
     console.log(spx.quote.lastPrice);
+    const contractType = putCall === PutCall.PUT ? ContractType.PUT : ContractType.CALL;
 
     const optionChainResponse = await optionChainApi.getOptionChain({
       symbol,
       strike: spx.quote.closePrice - 50, // TODO: Get the price by querying the market
       interval: 5,
-      contractType: ContractType.PUT,
+      contractType,
       strategy: OptionStrategyType.VERTICAL,
       range: RangeType.OTM,
       expMonth: convertToMonth(new Date().getMonth()),
+      daysToExpiration: 1
     } as OptionChainConfig);
-    const { optionStrategyList } = optionChainResponse.monthlyStrategyList[0];
+    const {optionStrategyList} = optionChainResponse.monthlyStrategyList[1];
 
-    const { primaryLeg, secondaryLeg, strategyBid, strategyAsk } = optionStrategyList[0];
+    const {primaryLeg, secondaryLeg, strategyBid, strategyAsk} = optionStrategyList[0];
 
     const price = (strategyBid + strategyAsk) / 2;
     return {
@@ -203,7 +241,7 @@ describe('Orders', () => {
           quantity: 1,
           instrument: {
             assetType: AssetType.OPTION,
-            putCall: PutCall.PUT,
+            putCall,
             symbol: primaryLeg.symbol,
           } as OptionInstrument,
         },
@@ -213,7 +251,7 @@ describe('Orders', () => {
           quantity: 1,
           instrument: {
             assetType: AssetType.OPTION,
-            putCall: PutCall.PUT,
+            putCall,
             symbol: secondaryLeg.symbol,
           },
         },

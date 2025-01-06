@@ -1,12 +1,12 @@
-import {SchwabClient} from './schwabClient';
-import {OptionChainConfig} from '../models/optionChain';
-import {HoursConfig} from '../models/hours';
+import { SchwabClient } from './schwabClient';
+import { OptionChainConfig } from '../models/optionChain';
+import { HoursConfig } from '../models/hours';
 import {
   provideSchwabClientWithLocalCacheProvider,
   provideSchwabClientWithLocalFileProvider,
 } from '../utils/testUtils';
-import {GetTransactionsConfig} from "../models/transaction";
-import {DateTime} from 'luxon';
+import { GetTransactionsConfig } from '../models/transaction';
+import { DateTime } from 'luxon';
 
 describe('SchwabClient', () => {
   describe('Instantiate with local cache', () => {
@@ -85,13 +85,12 @@ describe('SchwabClient', () => {
       const accounts = (await schwabClient.getAllAccounts()) || [];
       const account = accounts.pop();
       const response = await schwabClient.getTransactions({
-        accountId: account?.hashValue || "",
-        startDate: DateTime.now().minus({day: 5}).toISO(),
+        accountId: account?.hashValue || '',
+        startDate: DateTime.now().minus({ day: 5 }).toISO(),
         endDate: DateTime.now().toISO(),
       });
 
       expect(response).toBeDefined();
-
     });
   });
 });

@@ -1,6 +1,8 @@
 export interface GetTransactionsConfig {
   accountId: string;
   transactionId?: string;
+  startDate: string;
+  endDate: string;
 }
 
 export enum QueryTransactionType {

@@ -3,6 +3,7 @@ export interface GetTransactionsConfig {
   transactionId?: string;
   startDate: string;
   endDate: string;
+  types?: QueryTransactionType;
 }
 
 export enum QueryTransactionType {

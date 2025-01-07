@@ -1,9 +1,9 @@
-import {SecuritiesAccount} from '../models/accounts';
-import {QueryTransactionType, TransactionType} from '../models/transaction';
-import {AccountApi} from './accounts';
-import {provideClientWithLocalFileCredentialProvider} from '../utils/testUtils';
-import {TransactionsApi} from './transactions';
-import {DateTime} from "luxon";
+import { SecuritiesAccount } from '../models/accounts';
+import { QueryTransactionType, TransactionType } from '../models/transaction';
+import { AccountApi } from './accounts';
+import { provideClientWithLocalFileCredentialProvider } from '../utils/testUtils';
+import { TransactionsApi } from './transactions';
+import { DateTime } from 'luxon';
 
 describe('Transactions', () => {
   let validAccount: SecuritiesAccount;
@@ -34,7 +34,7 @@ describe('Transactions', () => {
     const transactions = await transactionApi.getTransactions({
       accountId: validAccount.accountNumber,
       startDate: DateTime.now().toISO(),
-      endDate: DateTime.now().toISO()
+      endDate: DateTime.now().toISO(),
     });
 
     const transaction = transactions.filter((t) => (t.type = TransactionType.MONEY_MARKET)).pop();
@@ -43,7 +43,7 @@ describe('Transactions', () => {
       accountId: validAccount.accountNumber,
       transactionId: transaction?.transactionId,
       startDate: DateTime.now().toISO(),
-      endDate: DateTime.now().toISO()
+      endDate: DateTime.now().toISO(),
     });
 
     expect(response.length).toBeGreaterThanOrEqual(0);

@@ -1,8 +1,11 @@
-import {SchwabClient} from './schwabClient';
-import {OptionChainConfig} from '../models/optionChain';
-import {HoursConfig} from '../models/hours';
-import {provideSchwabClientWithLocalCacheProvider, provideSchwabClientWithLocalFileProvider,} from '../utils/testUtils';
-import {QueryTransactionType} from '../models/transaction';
+import { SchwabClient } from './schwabClient';
+import { OptionChainConfig } from '../models/optionChain';
+import { HoursConfig } from '../models/hours';
+import {
+  provideSchwabClientWithLocalCacheProvider,
+  provideSchwabClientWithLocalFileProvider,
+} from '../utils/testUtils';
+import { QueryTransactionType } from '../models/transaction';
 
 describe('SchwabClient', () => {
   describe('Instantiate with local cache', () => {
@@ -84,7 +87,7 @@ describe('SchwabClient', () => {
         accountId: account?.hashValue || '',
         startDate: '2025-01-05T00:00:00Z',
         endDate: '2025-02-06T23:00:00Z',
-        types: QueryTransactionType.TRADE
+        types: QueryTransactionType.TRADE,
       });
 
       expect(response).toBeDefined();

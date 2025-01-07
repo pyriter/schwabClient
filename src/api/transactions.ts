@@ -12,7 +12,7 @@ export class TransactionsApi {
   constructor(private client: Client) {}
 
   async getTransactions(config: GetTransactionsConfig): Promise<Transaction[]> {
-    const { startDate, endDate, types} = config;
+    const { startDate, endDate, types } = config;
     const url = this.generateTransactionsUrl({ accountId: config.accountId, transactionId: config.transactionId });
     const response = await this.client.get({
       url,
@@ -21,7 +21,7 @@ export class TransactionsApi {
       params: {
         startDate,
         endDate,
-        types
+        types,
       },
     } as Request);
     return response.data as Transaction[];

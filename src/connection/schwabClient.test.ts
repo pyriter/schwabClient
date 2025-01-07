@@ -85,7 +85,7 @@ describe('SchwabClient', () => {
       const account = accounts.pop();
       const response = await schwabClient.getTransactions({
         accountId: account?.hashValue || '',
-        startDate: '2025-01-05T00:00:00Z',
+        startDate: '2024-12-20T00:00:00Z',
         endDate: '2025-02-06T23:00:00Z',
         types: QueryTransactionType.TRADE,
       });

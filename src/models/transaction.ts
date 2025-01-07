@@ -76,7 +76,7 @@ export interface Transaction {
   achStatus: AchStatusType;
   accruedInterest: number;
   fees: object;
-  transactionItem: TransactionItem;
+  transactionItems: TransactionItem[];
 }
 
 export interface TransactionItem {

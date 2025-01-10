@@ -88,18 +88,20 @@ export interface TransferItem {
   parentChildIndicator: string;
   instruction: string;
   positionEffect: string;
-  instrument: TransactionInstrument;
+  instrument: OptionTransactionInstrument;
 }
 
-export interface TransactionInstrument {
-  symbol: string;
-  underlyingSymbol: string;
-  optionExpirationDate: string;
-  optionStrikePrice: number;
-  putCall: string;
-  cusip: string;
-  description: string;
+export interface OptionTransactionInstrument {
   assetType: string;
-  bondMaturityDate: string;
-  bondInterestRate: number;
+  status: string;
+  symbol: string;
+  description: string;
+  instrumentId: string;
+  closingPrice: string;
+  expirationDate: string;
+  optionPremiumMultiplier: number;
+  putCall: string;
+  strikePrice: number;
+  type: string;
+  underlyingSymbol: string;
 }

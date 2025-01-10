@@ -76,10 +76,10 @@ export interface Transaction {
   achStatus: AchStatusType;
   accruedInterest: number;
   fees: object;
-  transactionItems: TransactionItem[];
+  transferItems: TransferItem[];
 }
 
-export interface TransactionItem {
+export interface TransferItem {
   accountId: number;
   amount: number;
   price: number;
